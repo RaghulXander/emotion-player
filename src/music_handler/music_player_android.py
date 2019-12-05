@@ -10,7 +10,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 size = 4
 
 # We load the xml file
-classifier = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+cascade_fn = args.get('--cascade', "../image_utils/haarcascade_frontalface_alt.xml")
+classifier = cv2.CascadeClassifier(cascade_fn)
 mobile_video="http://192.168.0.109:8080/shot.jpg"
 now = time.time()
 future = now + 15
@@ -33,7 +34,7 @@ while True:
     for f in faces:
         (x, y, w, h) = [v * size for v in f]  # Scale the shapesize backup
         sub_face = im[y:y + h, x:x + w]
-        FaceFileName = "test.jpg"  # Saving the current image from the webcam for testing.
+        FaceFileName = "output_emotion.jpg"  # Saving the current image from the webcam for testing.
         cv2.imwrite(FaceFileName, sub_face)
         text = label_image.main(FaceFileName)  # Getting the Result from the label_image file, i.e., Classification Result.
         text = text.title()  # Title Case looks Stunning.

@@ -1,0 +1,4 @@
+calmness
+excited 
+happy
+sad

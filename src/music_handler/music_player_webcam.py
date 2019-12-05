@@ -1,9 +1,9 @@
 import time
 import cv2
 import importlib
+import mmap
 
-# import label_image from "../image_utils/label_image"
-importlib.import_module("label_image")
+import label_image
 import os
 import random
 import subprocess
@@ -31,7 +31,7 @@ while True:
         (x, y, w, h) = [v * size for v in f]  # Scale the shapesize backup
         sub_face = im[y : y + h, x : x + w]
         # Saving the current image from the webcam for testing.
-        FaceFileName = "test.jpg"
+        FaceFileName = "output_emotion.jpg"
         cv2.imwrite(FaceFileName, sub_face)
         # Getting the Result from the label_image file, i.e., Classification Result.
         text = label_image.main(FaceFileName)
@@ -57,7 +57,7 @@ while True:
     # Show the image/
     cv2.imshow("Music player with Emotion recognition", im)
     key = cv2.waitKey(30) & 0xFF
-    pygame.init()
+    # pygame.init()
     pygame.mixer.init()
     pygame.mixer.music.set_volume(1.9)
     if time.time() > future:
@@ -77,7 +77,9 @@ while True:
                     "/Users/RaghulJayan/Qube/Repo/emotion-player/datasets/Songs/Calmness/"
                     + randomfile
                 )
-                pygame.mixer.music.load(file)
+                with open(file) as f:
+                    PlayedMp3File = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                pygame.mixer.music.load(PlayedMp3File)
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy() == True:
                     continue
@@ -99,7 +101,9 @@ while True:
                     "/Users/RaghulJayan/Qube/Repo/emotion-player/datasets/Songs/Happy/"
                     + randomfile
                 )
-                pygame.mixer.music.load(file)
+                with open(file) as f:
+                    PlayedMp3File = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                pygame.mixer.music.load(PlayedMp3File)
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy() == True:
                     continue
@@ -118,7 +122,9 @@ while True:
                     "/Users/RaghulJayan/Qube/Repo/emotion-player/datasets/Songs/Excited/"
                     + randomfile
                 )
-                pygame.mixer.music.load(file)
+                with open(file) as f:
+                    PlayedMp3File = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                pygame.mixer.music.load(PlayedMp3File)
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy() == True:
                     continue
@@ -137,7 +143,9 @@ while True:
                     "/Users/RaghulJayan/Qube/Repo/emotion-player/datasets/Songs/Sad/"
                     + randomfile
                 )
-                pygame.mixer.music.load(file)
+                with open(file) as f:
+                    PlayedMp3File = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                pygame.mixer.music.load(PlayedMp3File)
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy() == True:
                     continue
