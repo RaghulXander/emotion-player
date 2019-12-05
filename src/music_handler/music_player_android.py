@@ -1,21 +1,21 @@
 import cv2
 import label_image
-import os,random,subprocess
-import  numpy as np
-from urllib.request import  urlopen
+import os, random, subprocess
+import numpy as np
+from urllib.request import urlopen
 import time
 from playsound import playsound
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 
 size = 4
 
 # We load the xml file
-cascade_fn = args.get('--cascade', "../image_utils/haarcascade_frontalface_alt.xml")
-classifier = cv2.CascadeClassifier(cascade_fn)
-mobile_video="http://192.168.0.109:8080/shot.jpg"
+classifier = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
+mobile_video = "http://25.199.162.143/shot.jpg"
 now = time.time()
 future = now + 15
-  # Using default WebCam connected to the PC.
+# Using default WebCam connected to the PC.
 
 while True:
 
@@ -23,7 +23,7 @@ while True:
     img_arr = np.array(bytearray(img_resp.read()), dtype=np.uint8)
 
     cap = cv2.imdecode(img_arr, -1)
-    im=cv2.flip(cap,1,0)
+    im = cv2.flip(cap, 1, 0)
     mini = cv2.resize(im, (int(im.shape[1] / size), int(im.shape[0] / size)))
 
     # detect MultiScale / faces
@@ -33,10 +33,12 @@ while True:
     # Draw rectangles around each face
     for f in faces:
         (x, y, w, h) = [v * size for v in f]  # Scale the shapesize backup
-        sub_face = im[y:y + h, x:x + w]
+        sub_face = im[y : y + h, x : x + w]
         FaceFileName = "output_emotion.jpg"  # Saving the current image from the webcam for testing.
         cv2.imwrite(FaceFileName, sub_face)
-        text = label_image.main(FaceFileName)  # Getting the Result from the label_image file, i.e., Classification Result.
+        text = label_image.main(
+            FaceFileName
+        )  # Getting the Result from the label_image file, i.e., Classification Result.
         text = text.title()  # Title Case looks Stunning.
         font = cv2.FONT_HERSHEY_TRIPLEX
 
@@ -57,13 +59,13 @@ while True:
             cv2.putText(im, text, (x + h, y), font, 1, (0, 191, 255), 2)
 
     # Show the image/
-    cv2.imshow('Music player with Emotion recognition', im)
-    key = cv2.waitKey(30)& 0xff
+    cv2.imshow("Music player with Emotion recognition", im)
+    key = cv2.waitKey(30) & 0xFF
     pygame.init()
     pygame.mixer.init()
     pygame.mixer.music.set_volume(1.9)
     if time.time() > future:
-                try:
+        try:
             print(text)
             if text == "Calmness":
                 randomfile = random.choice(
