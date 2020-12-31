@@ -3,7 +3,7 @@ wheel==0.33.1
 absl-py==0.8.1
 astor==0.8.1
 awscli==1.16.296
-botocore==1.13.32
+botocore==1.19.46
 cachetools==3.1.1
 certifi==2019.11.28
 chardet==3.0.4
